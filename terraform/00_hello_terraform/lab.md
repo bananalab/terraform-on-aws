@@ -40,6 +40,21 @@ There is an ecosystem of tools to help develop Terraform code.  We'll be using a
 
 > 📘 These can be installed on systems that support [Homebrew](https://brew.sh/) (MacOS, Linux, WSL).
 
+## Install Terraform
+Even though you have installed a lot of tools, Terraform itself is not installed yet.
+To install it run:
+
+`tfenv install latest`
+
+Now that Terraform is installed you can begin exploring it.
+
+Try `terraform help` to see what commands are available.
+
+Run `terraform apply`  What happens?
+> 📘 We'll be exploring a lot of these in detail throughout the course, but feel free to ask if any commands pique your interest.
+
+> 📘 typing `terraform` at the prompt gets tedious quickly.  Try adding an alias `tf=terraform` using your shell's aliasing mechanism.
+
 ## Check your AWS settings.
 > 📘 A full walk through of setting up AWS accounts is outside the scope of the training, but you should be able to run:
 
