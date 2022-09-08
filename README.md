@@ -1,2 +1,2 @@
 # terraform-on-aws
-NobleProg training
+Terraform on AWS Training
