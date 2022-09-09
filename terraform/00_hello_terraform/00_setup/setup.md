@@ -46,6 +46,8 @@ To install it run:
 
 `tfenv install latest`
 
+> 🚧 tfenv may not work on Windows.  Instead you can download terraform binaries here: https://www.terraform.io/downloads
+
 Now that Terraform is installed you can begin exploring it.
 
 Try `terraform help` to see what commands are available.
