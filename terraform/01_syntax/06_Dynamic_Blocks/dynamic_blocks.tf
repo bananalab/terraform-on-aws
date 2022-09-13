@@ -59,7 +59,7 @@ resource "aws_s3_bucket" "bucket_dynamic_blocks" {
   dynamic "lifecycle_rule" {
     for_each = range(100)
     content {
-      prefix  = "/path${lifecycle_rule.value}"
+      prefix  = "/path-${lifecycle_rule.key}"
       enabled = true
       noncurrent_version_expiration {
         days = 90

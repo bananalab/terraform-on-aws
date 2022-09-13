@@ -2,3 +2,11 @@
 
 1. Browse to https://github.com/bananalab/terraform-modules-template
 2. Create your own repository from the template by clicking "Use this template"
+3. Clone your new repo.
+4. Change directory into your new repo.
+5. Run `make module aws-s3-bucket`
+6. Explore the files and directoryies created.
+7. Create a feature branch.
+8. Create Terraform code to create an S3 bucket.
+9. Commit using a conventional commit formatted commit message (e.g. `feat(s3-bucket): New module`) and push the branch.
+10. Fix any pre-commit issues.

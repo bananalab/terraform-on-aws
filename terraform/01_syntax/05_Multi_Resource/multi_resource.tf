@@ -5,7 +5,7 @@
 # the current iteration number.
 # TIP: setting `count = 0` is a handy way to remove a resource but keep the config.
 resource "aws_s3_bucket" "count_buckets" {
-  count  = 0
+  count  = 1
   bucket = "${data.aws_caller_identity.current.account_id}-bucket${count.index}"
 }
 
