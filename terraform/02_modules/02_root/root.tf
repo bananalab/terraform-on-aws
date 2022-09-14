@@ -2,5 +2,10 @@
 # resource syntax, but not exactly the same.
 
 module "minimal" {
-  source = "../01_minimal"
+  source    = "../01_minimal"
+  parameter = "test"
+}
+
+output "result" {
+  value = module.minimal.result
 }
