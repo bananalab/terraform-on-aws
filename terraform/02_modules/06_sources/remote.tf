@@ -33,7 +33,7 @@ module "generic_git_ssh" {
 
 /*
 module "github_monorepo" {
-  source = "github.com/bananalab/terraform-modules//modules/aws-s3-bucket"
+  source = "github.com/bananalab/terraform-modules//modules/aws-s3-bucket?ref=0.1.0"
   dir    = ""
 }
 */
