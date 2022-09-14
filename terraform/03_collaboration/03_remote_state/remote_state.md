@@ -1,55 +1,35 @@
 # Backend for state
 
-In this exercise, you will create a remote backend for Terraform state of your project. This will allow:
+The Terraform state file is critical for managing infrastructure.  The state represents the state of the infrastructure as Terraform understands it.  If the state file is lost it can be complicated to recover (although it doesn't cause an immediate service impact).
 
-* cooperation with the team
-* safe location for Terraform state
-* locking the state for Terraform apply operation
+Its also very important that multiple users have access to the state file if they will collaborate with Terraform. To enable this workflow Terraform supports remote backends.  Remote backends are cloud storage providers such as AWS s3.  There are many other backend providers but we'll focus on s3 in this excersize.
 
-## Project pre-state: Create resources for state
+## Configure your account for remote state.
 
-1. Create the directory for the project that will create resources necessary for the main project's state:
+1. Begin with the `terraform-live` repo you created previously.
 
-    ```bash
-    mkdir pre-state && cd pre-state
-    ```
+2. Add this code to the `versions.tf` file:
 
-1. Create files for the project:
-
-    * `main.tf`
-    * `outputs.tf`
-    * `variables.tf`
-    * `providers.tf`
-
-1. In the `main.tf` file, create an S3 bucket:
-
-    ```bash
-    resource "aws_s3_bucket" "bucket" {
-        bucket = "${var.project}-terraform-state-bucket"
-        versioning {
-            enabled = true
-        }
-        server_side_encryption_configuration {
-            rule {
-                apply_server_side_encryption_by_default {
-                    sse_algorithm = "AES256"
-                }
-            }
-        }
-        object_lock_configuration {
-            object_lock_enabled = "Enabled"
-        }
-        tags = {
-            Name = "S3 Remote Terraform State Store"
-        }
+```
+terraform {
+    backend "s3" {
+    bucket         = <name_of_bucket>
+    key            = "terraform.tfstate"
     }
-    ```
+}
+```
+3. Run `terraform init`. (There will be a warning about migrating state).
+4. Use the aws console to inspect the s3 bucket.  Verify that a state file exists there.
+
+# State locking and S3.
+
+It's very important that multiple simultaneos writes do not happen to the state file.  Terraform enforces this with locks.  Most providers support native locking, but s3 does not.  To support locking add a dynamoDB table:
 
 1. In the `main.tf` file, create a DynamoDB table:
 
     ```bash
     resource "aws_dynamodb_table" "terraform_lock" {
-        name           = "${var.project}-terraform-lock-table"
+        name           = "terraform-lock-table"
         read_capacity  = 5
         write_capacity = 5
         hash_key       = "LockID"
@@ -58,95 +38,9 @@ In this exercise, you will create a remote backend for Terraform state of your p
             type = "S"
         }
         tags = {
-            "Name" = "State Lock Table for ${var.project}"
+            "Name" = "State Lock Table"
         }
     }
 
-1. Declare variables "project", "aws_region" and "aws_profile" in `variables.tf` file.
-1. Configure the AWS provider in `providers.tf` file.
-1. Set up outputs:
-
-    ```bash
-    output "state_backend" {
-        value = {
-            "bucket"  = aws_s3_bucket.bucket.id
-            "table"   = aws_dynamodb_table.terraform_lock.id
-            "region"  = var.aws_region
-            "profile" = var.aws_profile
-        }
-    }
-    ```
-
-1. Create a `project.auto.tfvars` file and define variables` values.
-1. Write down the code for the **backend** of the project:
-
-    ```
-    terraform {
-      backend "s3" {
-        bucket         = <state_backend.bucket>
-        key            = "terraform.tfstate"
-        region         = <state_backend.region>
-        dynamodb_table = <state_backend.table>
-        profile        = <state_backend.profile>
-      }
-    }
-    ```
-
-    NOTE: This is something you will copy in the project below.
-
-## Project main: Create resources shared in backend
-
-1. Create the directory for the main project:
-
-    ```bash
-    mkdir main && cd main
-    ```
-
-1. Create files for the project:
-
-    * `main.tf`
-    * `outputs.tf`
-    * `variables.tf`
-    * `providers.tf`
-
-1. In the `providers.tf` file, set up the AWS provider as usual.
-
-1. In the `providers.tf` file also **paste the *backend* code - result from pre-state-project**.
-
-1. In the `main.tf` file, create a resource:
-
-    ```tf
-    resource "aws_iam_policy" "policy" {
-      name        = "terraformed_test_policy_my_username"
-      path        = "/"
-      description = "Terraformed test policy"
-
-      policy = <<EOF
-    {
-      "Version": "2012-10-17",
-      "Statement": [
-        {
-          "Action": [
-            "ec2:Describe*"
-          ],
-          "Effect": "Allow",
-          "Resource": "*"
-        }
-      ]
-    }
-    EOF
-    }
-    ```
-
-1. Apply the code to create a resource in AWS. Notice that the `terraform.tfstate` is no longer in the local directory.
-1. Visit AWS console and:
-    1. View the policy in IAM.
-    1. Go to S3 and see the `terraform.tfstate` object.
-
-
-## Challenge
-
-1. Create `development` and `production` workspaces.
-1. Modify the policy code so that the workspace name is the part of policy name.
-1. Apply both workspaces.
-1. Analyze the contents of the S3 state bucket. How are workspaces organized?
+2. Run `terraform-init`
+3. In the AWS console inspect the DynamoDB table.  What do you see?
