@@ -5,6 +5,7 @@ Install
 ```bash
 brew install cdktf
 ```
+> Make sure version >= 0.12.2... There is a bug in 0.12.0 that prevents the AWS provider from working
 
 Create a project
 ```bash
@@ -32,3 +33,4 @@ Edit cdktf.json
 ```
 
 Run `cdktf get` to download required modules and providers.
+

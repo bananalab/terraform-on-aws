@@ -1,26 +1,28 @@
-#!/usr/bin/env python
 from constructs import Construct
-from cdktf import App, TerraformStack, TerraformOutput
-from imports.aws import AwsProvider, ec2
+from cdktf import App, TerraformStack
+from imports.aws import AwsProvider
+from imports.aws.sns import SnsTopic
+from imports.terraform_aws_modules.aws import Vpc
+#from imports.aws.lambdafunction import LambdaFunction
+#from imports.aws.iam import IamRole
 
 
-class CDKDemoStack(TerraformStack):
+class MyStack(TerraformStack):
     def __init__(self, scope: Construct, ns: str):
         super().__init__(scope, ns)
 
-        AwsProvider(self, "Aws", region="us-west-2")
+        AwsProvider(self, 'Aws', region='us-east-1')
 
-        # cdkdemoInstance = ec2.Instance(self, "cdkdemo",
-        #                               ami="ami-005e54dee72cc1d00",
-        #                               instance_type="t2.micro",
-        #                               )
-
-        # TerraformOutput(self, "cdkdemo_public_ip",
-        #                value=cdkdemoInstance.public_ip
-        #                )
+        Vpc(self, 'CustomVpc',
+            name='custom-vpc',
+            cidr='10.0.0.0/16',
+            azs=["us-east-1a", "us-east-1b"],
+            public_subnets=["10.0.1.0/24", "10.0.2.0/24"]
+            )
+        SnsTopic(self, 'Topic', display_name='my-first-sns-topic')
 
 
 app = App()
-CDKDemoStack(app, "cdkdemo-terraform")
+MyStack(app, "python-aws")
 
 app.synth()

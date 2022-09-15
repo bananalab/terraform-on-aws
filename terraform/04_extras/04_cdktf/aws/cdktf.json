@@ -4,9 +4,11 @@
   "projectId": "5bca61b9-e789-4b2c-b632-8ece728ff41a",
   "sendCrashReports": "true",
   "terraformProviders": [
-    "hashicorp/aws@~>3.0"
+    "hashicorp/aws@~>4.0"
   ],
-  "terraformModules": [],
+  "terraformModules": [
+    "terraform-aws-modules/vpc/aws@2.77.0"
+  ],
   "codeMakerOutput": "imports",
   "context": {
     "excludeStackIdFromLogicalIds": "true",
