@@ -23,7 +23,7 @@ terraform {
 
 # State locking and S3.
 
-It's very important that multiple simultaneos writes do not happen to the state file.  Terraform enforces this with locks.  Most providers support native locking, but s3 does not.  To support locking add a dynamoDB table:
+It's very important that simultaneous writes do not happen to the state file.  Terraform enforces this with locks.  Most providers support native locking, but s3 does not.  To support locking add a dynamoDB table:
 
 1. In the `main.tf` file, create a DynamoDB table:
 
@@ -41,6 +41,15 @@ It's very important that multiple simultaneos writes do not happen to the state 
             "Name" = "State Lock Table"
         }
     }
-
+2. Modify the `terraform/backend` block:
+```
+terraform {
+    backend "s3" {
+        bucket         = <name_of_bucket>
+        key            = "terraform.tfstate"
+        dynamodb_table = <name_of_table>
+    }
+}
+```
 2. Run `terraform-init`
 3. In the AWS console inspect the DynamoDB table.  What do you see?

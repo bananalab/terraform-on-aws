@@ -2,7 +2,7 @@
 
 We already created a Github repo for reusable modules, but what about root configs?
 
-Root configs represent the single source of truth for your infrastructure.  The content of the HEAD of the default branch should always represent the desired state of the infrastructure.  One way to think of it: If the infrastructure doesn't match the default branch, then the infrastructure is wrong.  A `terraform apply` should always bring the infrastructure back to the desired state.  This is why it's important that no is allowed to modify infrastructure with the AWS console in production accounts.
+Root configs represent the single source of truth for your infrastructure.  The content of the HEAD of the default branch should always represent the desired state of the infrastructure.  One way to think of it: If the infrastructure doesn't match the default branch, then the infrastructure is wrong.  A `terraform apply` should always bring the infrastructure back to the desired state.  This is why it's important that no one is allowed to modify infrastructure with the AWS console in production accounts.
 
 # Create a root config.
 

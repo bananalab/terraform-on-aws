@@ -1,7 +1,7 @@
 {
     "_meta": {
         "hash": {
-            "sha256": "7e3bb780d64e276dac5d7518c48ca8d105a82414b9d3c7b4d170e43866081521"
+            "sha256": "34ba170d2fd3f38e5d96fde851f61e40e21a580c29678f440522926e193b4a19"
         },
         "pipfile-spec": 6,
         "requires": {
@@ -40,13 +40,21 @@
             "index": "pypi",
             "version": "==0.12.2"
         },
+        "cdktf-cdktf-provider-docker": {
+            "hashes": [
+                "sha256:7de9fa7eacebc8261265f545b6195c5476f7c7ae437419a7c2401c77d680420c",
+                "sha256:f27c1eb456edb4422eba69ab03dad095a76219596b28472d32eaddc7bc939095"
+            ],
+            "index": "pypi",
+            "version": "==2.0.58"
+        },
         "constructs": {
             "hashes": [
-                "sha256:094b4dfd909530524e32b05f81f9dbaaaf7824f38461176809a329e288b882be",
-                "sha256:e1af8bb57c2782f37759b8cbe883c39892d082cb7a7126165eb3f221ac7c9504"
+                "sha256:b5f8a3a44e72177bc37f4edbb8a178ec9c0fba65ea3061dd88527871f43514c0",
+                "sha256:e8049b0bff2b3e171e6800e8ccd44ab69fa36a0967ee1f0f425c0a8a46e20b86"
             ],
             "markers": "python_version ~= '3.7'",
-            "version": "==10.1.98"
+            "version": "==10.1.103"
         },
         "exceptiongroup": {
             "hashes": [
