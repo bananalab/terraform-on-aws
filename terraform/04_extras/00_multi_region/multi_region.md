@@ -2,16 +2,11 @@
 
 Often resources Terraform is used to manage resources in multiple regions.
 
-Copy this code into `main.tf`
+Look at the example here: https://github.com/bananalab/terraform-modules/tree/main/modules/aws-rds-global-cluster
 
-```bash
-module "vpc" {
-  source  = "terraform-aws-modules/vpc/aws"
-  version = "3.14.4"
-  cidr    = "10.0.0.0/16"
-}
-```
+See that the module creates a database cluster spanning 2 regions.
 
-Then run `terraform init && terraform apply`
-
-How can you create an identical VPC in all regions?
+Challenge:
+  1. Clone the repo and see if you can fix any deploy and pre-commit errors.
+  2. Can you make the cluster span 3 regions?
+  3. Can you make the cluster span N number of regions?
