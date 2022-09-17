@@ -3,8 +3,6 @@ from cdktf import App, TerraformStack
 from imports.aws import AwsProvider
 from imports.aws.sns import SnsTopic
 from imports.terraform_aws_modules.aws import Vpc
-#from imports.aws.lambdafunction import LambdaFunction
-#from imports.aws.iam import IamRole
 
 
 class MyStack(TerraformStack):
@@ -20,7 +18,6 @@ class MyStack(TerraformStack):
             public_subnets=["10.0.1.0/24", "10.0.2.0/24"]
             )
         SnsTopic(self, 'Topic', display_name='my-first-sns-topic')
-
 
 app = App()
 MyStack(app, "python-aws")
